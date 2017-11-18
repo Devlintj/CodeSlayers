@@ -1,44 +1,44 @@
 #include "Character.h"
 #include <fstream>
 #include <string>
-Character::Character(string filename) {
+Character::Character(std::string filename) {
   ifstream characterData;
   characterData.open(filename);
   bool fistLine = true;
-  string line;
+  std::string line;
   while(!characterData.eof()) {
     if(firstLine) {
-      getline(characterData,line,','); //loads health, armor, strength, and exp of character
+      std::getline(characterData,line,','); //loads health, armor, strength, and exp of character
       health = stoi(line);
-      getline(characterData,line,',');
+      std::getline(characterData,line,',');
       strength = stoi(line);
-      getline(characterData,line,',');
+      std::getline(characterData,line,',');
       armor = stoi(line);
-      getline(characterData,line,',');
+      std::getline(characterData,line,',');
       level = stoi(line);
-      getline(characterData,line,','); //loads in moves damage
+      std::getline(characterData,line,','); //loads in moves damage
       moves[0].damageMod = stoi(line);
-      getline(characterData,line,','); //loads in moves armor pierce
+      std::getline(characterData,line,','); //loads in moves armor pierce
       moves[0].armorPierce = stoi(line);
-      getline(characterData,line,',');//loads in moves name
+      std::getline(characterData,line,',');//loads in moves name
       moves[0].name = line;
-      getline(characterData,line,',');
+      std::getline(characterData,line,',');
       moves[1].damageMod = stoi(line);
-      getline(characterData,line,',');
+      std::getline(characterData,line,',');
       moves[1].armorPierce = stoi(line);
-      getline(characterData,line,',');
+      std::getline(characterData,line,',');
       moves[1].name = line;
-      getline(characterData,line,',');
+      std::getline(characterData,line,',');
       moves[2].damageMod = stoi(line);
-      getline(characterData,line,',');
+      std::getline(characterData,line,',');
       moves[2].armorPierce = stoi(line);
-      getline(characterData,line,',');
+      std::getline(characterData,line,',');
       moves[2].name = line;
-      getline(characterData,line,',');
+      std::getline(characterData,line,',');
       moves[3].damageMod = stoi(line);
-      getline(characterData,line,',');
+      std::getline(characterData,line,',');
       moves[3].armorPierce = stoi(line);
-      getline(characterData,line);
+      std::getline(characterData,line);
       moves[3].name = stoi(line);
       firstLine = false;
     }
@@ -67,7 +67,7 @@ int Character::getArmor() {
 int Character::getLevel() {
   return level;
 }
-string Character::getName() {
+std::string Character::getName() {
   return name;
 }
 int Character::getX_pos() {
@@ -84,6 +84,6 @@ void Character::setY_pos(int y_pos) {
 }
 void outputMoves() {
   for(int i = 0; i < 4; i++) {
-    cout << "Move Name: " << moves[i].name << " Move Damage Mod: " << moves[i].damageMod << " Move Armor Pierce: " << moves[i].armorPierce << endl;
+    std::cout << "Move Name: " << moves[i].name << " Move Damage Mod: " << moves[i].damageMod << " Move Armor Pierce: " << moves[i].armorPierce << endl;
   }
 }

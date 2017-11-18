@@ -1,12 +1,13 @@
 #ifndef ITEMSANDMOVES_H
 #define ITEMSANDMOVES_H
+#include <string>
 struct Item{
-  string name;
+  std::string name;
   int healthGained;
 };
 
 struct Move{
-  string name;
+  std::string name;
   int damageMod;
   int armorPierce;
 };

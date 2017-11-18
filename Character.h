@@ -1,9 +1,11 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
+#include <string>
+#include "ItemsAndMoves.h"
 class Character{
   public:
     //constructor initalizing a character with a file to import stats
-    Character(string);
+    Character(std::string);
     ~Character();
     //function to attack another character with a certain attack
     void attack(Character, int);
@@ -18,13 +20,15 @@ class Character{
     //function that returns character's level
     int getLevel();
     //function that returns character's name
-    string getName();
+    std::string getName();
     //function the couts move names and stats
     void outputMoves();
     int getX_pos();
     int getY_pos();
     void setX_pos(int);
-    void setY_pos(int)
+    void setY_pos(int);
+    //array of structure move
+    Move moves[4];
   private:
     int health;
     int strength;
@@ -32,8 +36,6 @@ class Character{
     int level;
     int x_pos;
     int y_pos;
-    string name;
-    //array of structure move
-    Move moves[4];
+    std::string name;
 };
 #endif

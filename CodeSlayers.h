@@ -1,5 +1,8 @@
 #ifndef CODESLAYERS_H
 #define CODESLAYERS_H
+#include "Player.h"
+#include "Map.h"
+#include "Enemy.h"
 class CodeSlayers {
   public:
     CodeSlayers();

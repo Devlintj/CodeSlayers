@@ -44,21 +44,21 @@ Map::Map() {
     }
   }
 }
-Map::Map(string filename) {
+Map::Map(std::string filename) {
   ifstream mapFile;
   mapFile.open(filename);
   if(mapFile.fail()) {
-    cout << "could not load save data" << endl;
+    std::cout << "could not load save data" << endl;
   }
-  string line;
-  getline(mapFile,line);
+  std::string line;
+  std::getline(mapFile,line);
   for(int i = 0; i < 100; i++) {
     for(int j = 0; j < 100; j++) {
-      getline(mapFile,line);
+      std::getline(mapFile,line);
       tileArray[i][j] = Title(line));
     }
   }
-  getline(mapFile,line);
+  std::getline(mapFile,line);
   while(!mapFile.eof()) {
     getlint(mapFile,line);
     Enemy a(line);
@@ -83,7 +83,7 @@ void Map::saveData() {
     enemies.pop_back();
   }
 }
-string Map::getTileTerrain(int x, int y) {
+std::string Map::getTileTerrain(int x, int y) {
   return tileArray[x][y].getTerrain();
 }
 Enemy Map::getEnemy(int x, int y) {

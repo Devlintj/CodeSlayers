@@ -1,12 +1,15 @@
 #include "CodeSlayers.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <iostream>
 CodeSlayers::CodeSlayers() {
   fun_counter = 100;
   char start = 'a'
   while(start != 'n' || start != 'l') {
-    string line;
-    cout << "would you like to play a new game or load a previous one? press and enter 'n' for a new game, and 'l' to load a saved game" << endl;
-    cin >> line;
+    std::string line;
+    std::cout << "would you like to play a new game or load a previous one? press and enter 'n' for a new game, and 'l' to load a saved game" << endl;
+    std::cin >> line;
     if(line[0] == 'n') {
       map = new Map();
       player = new Player("playerStats.txt");
@@ -26,11 +29,11 @@ CodeSlayers::~CodeSlayers() {
   delete map;
 }
 void CodeSlayers::playGame() {
-  cout << introText();
+  std::cout << introText();
   while(map->getEnemySize() > 0) {
-    cout << "what do you wish to do?" << endl;
-    string line;
-    cin >> line;
+    std::cout << "what do you wish to do?" << endl;
+    std::string line;
+    std::cin >> line;
     char action = line[0];
     switch(action) {
       case 'n':
@@ -64,7 +67,12 @@ void CodeSlayers::fight() {
   loadOpponent();
   int turnCount = 1;
   while(!isDead() && !gameOver()) {
-
+    if(turnCount%2 == 0) {
+      srand(time(NULL));
+      int att = rand%4;
+      opponent->attack(player, att);
+      std::cout << opponent->getName() << " attacks with " << opponent->moves[att].name << endl;
+    }
   }
   }
   if(isDead()) {
@@ -128,12 +136,12 @@ bool CodeSlayers::gameOver() {
   return false;
 }
 void CodeSlayers::showStats() {
-  cout << "Name: " << player->getName() << endl;
-  cout << "Strength: " << player->getStrength() << endl;
-  cout << "Armor: " << player->getArmor() << endl;
-  cout << "Health: " << player->getHealth() << endl;
-  cout << "Level: " << player->getLevel() << endl;
-  cout << "Exp til next level: " << expLevelUp - player->getExp() << endl;
+  std::cout << "Name: " << player->getName() << endl;
+  std::cout << "Strength: " << player->getStrength() << endl;
+  std::cout << "Armor: " << player->getArmor() << endl;
+  std::cout << "Health: " << player->getHealth() << endl;
+  std::cout << "Level: " << player->getLevel() << endl;
+  std::cout << "Exp til next level: " << expLevelUp - player->getExp() << endl;
   player->outputMoves();
   player->outputItems();
 }

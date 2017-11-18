@@ -1,14 +1,14 @@
 #ifndef TILE_H
 #define TILE_H
+#include <string>
 class Tile{
   public:
     //constructs tile with a terrain
-    Tile(string);
+    Tile(std::string);
     ~Tile();
     //function that gets terrain
-    string getTerrain();
+    std::string getTerrain();
   private:
-    string terrain;
-
+    std::string terrain;
 };
 #endif
