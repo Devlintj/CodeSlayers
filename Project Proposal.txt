@@ -1,0 +1,59 @@
+Tyler Devlin Project Proposal.
+My project is to create a turn-based RPG game called Code Slayers. The goal of
+this project is to demonstrate what I have learned in CSCI 1300 in a fun and
+enjoyable way for both me and the grader. I will now explain what each class I
+have created does and why they are needed for my game. You can look at the
+attached .h files in this folder for reference and to see the purpose for all the functions.
+
+Character class:
+The first class I will talk about is the character class. This class is only an
+abstract class which will the enemy and player class will inherit from. The reason
+for this is that the enemy and player class are very similar. I also did this, so
+players and enemies can be stored in a single array which the purpose of will later
+be explained when I talk about the map class.
+
+Enemy class:
+Next, I will talk about the enemy class. Enemy objects can attack a player, receive
+damage, and store values for their strength, health, and armor. Basically all the
+things needed for an enemy to fight the player. I have all of the enemies variables
+and it's move array as private, so programs and classes outside the enemy class
+can't change that data. I set all the functions as private because those functions
+will be used by the main.cpp file.
+
+Player class:
+The player class is almost exactly the same as the enemy class with a few extra
+functions and variables. The player has exp as a variable because the player
+needs to be able to level up. Leveling up increases the players stats.
+The player must also be able to use and get items. These items are stored in a
+vector since the player can have no items, or a bunch of them.
+
+Items And Moves:
+Items and moves are kept in a single .h file. The reason for this is that items
+and moves are structures instead of classes, since they only store variables.
+Items have a name and store one integer value(for healing or raising stats).
+Moves are what characters attack with and have certain modifiers. They also store
+a name and an integer value to modify attacks.
+
+Map class:
+the map exists for two reasons. The first reason is to store two multiple
+dimensional arrays(one for tiles and the other for characters) and move the player
+around one of the arrays. The second reason is to save and load data from a file.
+this makes sense because all the data and actions for the game happen on the map.
+
+Tile class:
+This class is mostly useless. It's main purpose is for flavor text about the terrain
+the player is in. It's second purpose is to direct the map class what enemies can
+load onto that array index(different monsters for different terrain).
+
+Reason this project meets the requirements:
+This project very easily meets the requirements in terms of difficulty and complexity.
+I have 6 classes, two structures, and two of my classes meet the minimum requirements.
+The first class that meets this requirement is the map class. It will have two if
+statements in the isEmpty and movePlayer functions, it will have two while and two
+for loops in the constructors and savaData function, it will use file I/O in the
+savaData and map constructor that takes in a filename as a parameter, it has over four
+data member, and it has appropriate methods.
+The second class that meets this requirement is the Player class. It will have
+two if statements in the useItem and levelUp functions, it has file I/O for the
+player's stats, it will have two while and for loops in the constructor and the
+setMoves function, it has over four data members, and it has appropriate methods.
