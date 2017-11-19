@@ -53,7 +53,7 @@ Player::Player(std::string filename) : Character(){
       std::getline(playerData,line,',');
       moves[3].armorPierce = std::atoi(num);
       std::getline(playerData,line);
-      moves[3].name = std::atoi(num);
+      moves[3].name = line;
       firstLine = false;
     } else {
       this->items.push_back(Item());
@@ -116,8 +116,7 @@ std::string Player::playerStats() {
   stat += ',' + std::to_string(moves[0].armorPierce) + ',' + moves[0].name + ',' + std::to_string(moves[1].damageMod);
   stat += ',' + std::to_string(moves[1].armorPierce) + ',' + moves[1].name + ',' + std::to_string(moves[2].damageMod);
   stat += ',' + std::to_string(moves[2].armorPierce) + ',' + moves[2].name + ',' + std::to_string(moves[3].damageMod);
-  stat += ',' + std::to_string(moves[3].armorPierce) + ',' + moves[3].name +
-  '\n';
+  stat += ',' + std::to_string(moves[3].armorPierce) + ',' + moves[3].name + '\n';
   return stat;
 }
 int Player::findMove(std::string moveName) {

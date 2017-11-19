@@ -8,21 +8,26 @@
 #include <iostream>
 CodeSlayers::CodeSlayers() {
   fun_counter = 100;
-  char start = 'a';
-  while(start != 'n' || start != 'l') {
+  while(1 == 1) {
     std::string line;
     std::cout << "would you like to play a new game or load a previous one? press and enter 'n' for a new game, and 'l' to load a saved game" << std::endl;
     std::cin >> line;
     if(line[0] == 'n') {
       map = new Map();
       player = new Player("playerStats.txt");
+      opponent = new Enemy();
+      boss = new Enemy("EnemyStats.txt", "cog");
+      expLevelUp = 5;
+      break;
     }
     if(line[0] == 'l') {
       map = new Map("mapdata.txt");
       player = new Player("savedPlayerStats.txt");
+      opponent = new Enemy();
+      boss = new Enemy("EnemyStats.txt", "cog");
+      expLevelUp = 5 * player->getLevel();
+      break;
     }
-    opponent = new Enemy();
-    boss = new Enemy("EnemyStats.txt", "cog");
   }
 }
 CodeSlayers::~CodeSlayers() {
@@ -33,7 +38,8 @@ CodeSlayers::~CodeSlayers() {
 }
 void CodeSlayers::playGame() {
   introText();
-  while(map->getEnemySize() > 0) {
+  while(map->getEnemySize() > -1) {
+    descriptionText();
     std::cout << "what do you wish to do?" << std::endl;
     std::string line;
     std::cin >> line;
@@ -102,12 +108,12 @@ void CodeSlayers::movePlayer(char direction) {
     break;
     case 'n':
     if(player->getY_pos() > 0) {
-      player->setX_pos(player->getY_pos() - 1);
+      player->setY_pos(player->getY_pos() - 1);
     }
     break;
     case 's':
     if(player->getY_pos() < 99) {
-      player->setX_pos(player->getY_pos() + 1);
+      player->setY_pos(player->getY_pos() + 1);
     }
     break;
   }
@@ -153,4 +159,8 @@ void CodeSlayers::saveGame() {
 }
 void CodeSlayers::introText() {
 
+}
+void CodeSlayers::descriptionText() {
+  std::cout << player->getX_pos() << " " << player->getY_pos() << '\n';
+  std::cout << "you are walking through " << map->getTileTerrain(player->getX_pos(), player->getY_pos()) << " terrain" << std::endl;
 }

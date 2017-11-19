@@ -31,6 +31,8 @@ class CodeSlayers {
     void saveGame();
     //funtion that couts intro to the game
     void introText();
+    //function that describes surrondings
+    void descriptionText();
   private:
     Map * map;
     Player * player;

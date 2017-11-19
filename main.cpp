@@ -8,7 +8,6 @@
 #include <iostream>
 
 int main() {
-  std::cout <<"test success!";
   CodeSlayers * game;
   game = new CodeSlayers();
   game->playGame();
