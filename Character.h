@@ -7,8 +7,6 @@ class Character{
     //constructor initalizing a character with a file to import stats
     Character(std::string);
     ~Character();
-    //function to attack another character with a certain attack
-    void attack(Character, int);
     //function to receiveDamage from another character
     void receiveDamage(int);
     //function that returns character's strength
@@ -29,7 +27,7 @@ class Character{
     void setY_pos(int);
     //array of structure move
     Move moves[4];
-  private:
+  protected:
     int health;
     int strength;
     int armor;

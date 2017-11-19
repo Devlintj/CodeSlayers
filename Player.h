@@ -1,17 +1,18 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "Character.h"
+#include "Enemy.h"
 #include <string>
 #include <vector>
-class Player : Character{
+class Player : public Character{
   public:
     //constructor initalizing a player with a file to import stats and level.
     Player(std::string);
     ~Player();
     //function to attack another player with a certain attack
-    void attack(Character, std::string);
+    void attack(Enemy*, std::string);
     //function that adds item to item vector
-    void addItem(std::string);
+    void addItem(std::string, int);
     //function that allows the player to use an item
     void useItem(std::string);
     //modifies health, strength, and armor of player when they gain enough exp
@@ -19,11 +20,13 @@ class Player : Character{
     //function that checks if player has enough exp to level up
     bool canLevelUp(int);
     //function that saves player data into a file
-    void savePlayerData(std::string);
+    void savePlayerData();
     //function that returns a string of the players stats
     std::string playerStats();
     //function that couts all your items names
     void outputItems();
+    //function that returns exp
+    int getExp();
   private:
     int exp;
     //vector to keep items

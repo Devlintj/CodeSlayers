@@ -1,10 +1,11 @@
 #include "Character.h"
 #include <fstream>
+#include <iostream>
 #include <string>
 Character::Character(std::string filename) {
-  ifstream characterData;
+  std::ifstream characterData;
   characterData.open(filename);
-  bool fistLine = true;
+  bool firstLine = true;
   std::string line;
   while(!characterData.eof()) {
     if(firstLine) {
@@ -48,10 +49,6 @@ Character::Character(std::string filename) {
 Character::~Character() {
 
 }
-void Character::attack(Character target, int moveIndex) {
-  int damage = (strength * moves[moveIndex].damageMod) - (armor - moves[movesIndex].armorPierce);
-  target.receiveDamage(damage);
-}
 void Character::receiveDamage(int damage) {
   health -=damage;
 }
@@ -82,8 +79,8 @@ void Character::setX_pos(int x_pos) {
 void Character::setY_pos(int y_pos) {
   this->y_pos = y_pos;
 }
-void outputMoves() {
+void Character::outputMoves() {
   for(int i = 0; i < 4; i++) {
-    std::cout << "Move Name: " << moves[i].name << " Move Damage Mod: " << moves[i].damageMod << " Move Armor Pierce: " << moves[i].armorPierce << endl;
+    std::cout << "Move Name: " << moves[i].name << " Move Damage Mod: " << moves[i].damageMod << " Move Armor Pierce: " << moves[i].armorPierce << std::endl;
   }
 }

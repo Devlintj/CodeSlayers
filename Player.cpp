@@ -1,12 +1,13 @@
 #include "Player.h"
 #include <vector>
 #include <fstream>
+#include <iostream>
 #include <string>
 Player::Player(std::string filename) {
   name = "Student";
-  ifstream playerData;
+  std::ifstream playerData;
   playerData.open(filename);
-  bool fistLine = true;
+  bool firstLine = true;
   std::string line;
   int itemSize = 0;
   while(!playerData.eof()) {
@@ -51,33 +52,33 @@ Player::Player(std::string filename) {
       moves[3].name = stoi(line);
       firstLine = false;
     } else {
-      items.push_back(Item());
+      this->items.push_back(Item());
       std::getline(playerData,line,',');
-      items[i].healthGained = stoi(line);
+      this->items[itemSize].healthGained = stoi(line);
       std::getline(playerData,line);
-      items[i].name = line;
-      i++;
+      this->items[itemSize].name = line;
+      itemSize++;
     }
   }
   playerData.close();
 }
-void Player::attack(Character target, std::string moveName) {
+void Player::attack(Enemy* target, std::string moveName) {
   int index = findMove(moveName);
   if(index >= 0) {
     int damage = (strength * moves[index].damageMod) - (armor - moves[index].armorPierce);
-    target.receiveDamage(damage);
+    target->receiveDamage(damage);
   }
 }
 void Player::addItem(std::string itemName, int health) {
-  items.push_back(Item());
-  items.back().name = itemName;
-  items.back().healthGained = health;
+  this->items.push_back(Item());
+  this->items.back().name = itemName;
+  this->items.back().healthGained = health;
 }
 void Player::useItem(std::string itemName) {
   int index = findItem(itemName);
   if(index >=0) {
-    health+= items[index].healthGained;
-    items.erase(items.begin()+index);
+    health+= this->items[index].healthGained;
+    this->items.erase(this->items.begin()+index);
   }
 }
 void Player::levelUp() {
@@ -93,22 +94,23 @@ bool Player::canLevelUp(int expReq) {
     return false;
   }
 }
-void savePlayerData() {
-  ofstream playerData;
+void Player::savePlayerData() {
+  std::ofstream playerData;
   playerData.open("savedPlayerStats.txt");
-  playerData << playerStats;
-  while(items.size() > 0) {
-    playerData << items[items.size() - 1].healthGained << ',' << items[items.size() - 1].name << endl;
-    items.pop_back();
+  playerData << playerStats();
+  while(this->items.size() > 0) {
+    playerData << this->items[this->items.size() - 1].healthGained << ',' << this->items[this->items.size() - 1].name << '\n';
+    this->items.pop_back();
   }
 }
 std::string Player::playerStats() {
-  std::string stat = to_string(health) + ',' + to_string(strength) + ',' + to_string(armor);
-  stat += ',' + to_string(exp) + ',' + to_string(level) + ',' + to_string(x_pos) + ',' + to_string(y_pos) + ',' + to_string(move[0].damageMod);
-  stat += ',' + to_string(move[0].armorPierce) + ',' + move[0].name + ',' + to_string(move[1].damageMod);
-  stat += ',' + to_string(move[1].armorPierce) + ',' + move[1].name + ',' + to_string(move[2].damageMod);
-  stat += ',' + to_string(move[2].armorPierce) + ',' + move[2].name + ',' + to_string(move[3].damageMod);
-  stat += ',' + to_string(move[3].armorPierc) << ',' + move[3].name + endl;
+  std::string stat = std::to_string(health) + ',' + std::to_string(strength) + ',' + std::to_string(armor);
+  stat += ',' + std::to_string(exp) + ',' + std::to_string(level) + ',' + std::to_string(x_pos) + ',' + std::to_string(y_pos) + ',' + std::to_string(moves[0].damageMod);
+  stat += ',' + std::to_string(moves[0].armorPierce) + ',' + moves[0].name + ',' + std::to_string(moves[1].damageMod);
+  stat += ',' + std::to_string(moves[1].armorPierce) + ',' + moves[1].name + ',' + std::to_string(moves[2].damageMod);
+  stat += ',' + std::to_string(moves[2].armorPierce) + ',' + moves[2].name + ',' + std::to_string(moves[3].damageMod);
+  stat += ',' + std::to_string(moves[3].armorPierce) + ',' + moves[3].name +
+  '\n';
   return stat;
 }
 int Player::findMove(std::string moveName) {
@@ -120,15 +122,18 @@ int Player::findMove(std::string moveName) {
   return -1;
 }
 int Player::findItem(std::string itemName) {
-  for(int i; i = items.size(); i++) {
-    if(items[i].name == itemName) {
+  for(int i; i = this->items.size(); i++) {
+    if(this->items[i].name == itemName) {
       return i;
     }
   }
   return -1;
 }
-void outputItems() {
-  for(int i = 0; i < items.size(); i++) {
-    std::cout << items[i].name << endl;
+void Player::outputItems() {
+  for(int i = 0; i < this->items.size(); i++) {
+    std::cout << this->items[i].name << std::endl;
   }
+}
+int Player::getExp() {
+  return exp;
 }

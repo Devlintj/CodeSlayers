@@ -45,10 +45,10 @@ Map::Map() {
   }
 }
 Map::Map(std::string filename) {
-  ifstream mapFile;
+  std::ifstream mapFile;
   mapFile.open(filename);
   if(mapFile.fail()) {
-    std::cout << "could not load save data" << endl;
+    std::cout << "could not load save data" << std::endl;
   }
   std::string line;
   std::getline(mapFile,line);
@@ -69,17 +69,17 @@ Map::~Map() {
 
 }
 void Map::saveData() {
-  ofstream myMap;
+  std::ofstream myMap;
   myMap.open("mapdata.txt");
-  myMap << "tiles" << endl;
+  myMap << "tiles" << '\n';
   for(int i = 0; i < 100; i++) {
     for(int j =0; j < 100; j++) {
-      myMap << tileArray[i][j].getTerrain() << endl;
+      myMap << tileArray[i][j].getTerrain() << '\n';
     }
   }
-  myMap << "enemies" << endl;
+  myMap << "enemies" << 'n';
   while(enemies.size() > 0) {
-    myMap << enemies.at(enemies.end()).enemyStats() << endl;
+    myMap << enemies.at(enemies.end()).enemyStats() << '\n';
     enemies.pop_back();
   }
 }

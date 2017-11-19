@@ -5,10 +5,10 @@
 #include <iostream>
 CodeSlayers::CodeSlayers() {
   fun_counter = 100;
-  char start = 'a'
+  char start = 'a';
   while(start != 'n' || start != 'l') {
     std::string line;
-    std::cout << "would you like to play a new game or load a previous one? press and enter 'n' for a new game, and 'l' to load a saved game" << endl;
+    std::cout << "would you like to play a new game or load a previous one? press and enter 'n' for a new game, and 'l' to load a saved game" << std::endl;
     std::cin >> line;
     if(line[0] == 'n') {
       map = new Map();
@@ -29,9 +29,9 @@ CodeSlayers::~CodeSlayers() {
   delete map;
 }
 void CodeSlayers::playGame() {
-  std::cout << introText();
+  introText();
   while(map->getEnemySize() > 0) {
-    std::cout << "what do you wish to do?" << endl;
+    std::cout << "what do you wish to do?" << std::endl;
     std::string line;
     std::cin >> line;
     char action = line[0];
@@ -49,7 +49,7 @@ void CodeSlayers::playGame() {
       movePlayer('w');
       break;
       case 'f':
-      if(!isEmpty(player->getX_pos(), player->getY_pos())) {
+      if(!map->isEmpty(player->getX_pos(), player->getY_pos())) {
         fight();
       }
       break;
@@ -69,11 +69,10 @@ void CodeSlayers::fight() {
   while(!isDead() && !gameOver()) {
     if(turnCount%2 == 0) {
       srand(time(NULL));
-      int att = rand%4;
+      int att = rand()%4;
       opponent->attack(player, att);
-      std::cout << opponent->getName() << " attacks with " << opponent->moves[att].name << endl;
+      std::cout << opponent->getName() << " attacks with " << opponent->moves[att].name << std::endl;
     }
-  }
   }
   if(isDead()) {
     map->removeEnemy(player->getX_pos(), player->getY_pos());
@@ -95,7 +94,7 @@ void CodeSlayers::movePlayer(char direction) {
     break;
     case 'e':
     if(player->getX_pos() < 99) {
-      player->setX_pos(playe->getX_pos() + 1);
+      player->setX_pos(player->getX_pos() + 1);
     }
     break;
     case 'n':
@@ -136,12 +135,12 @@ bool CodeSlayers::gameOver() {
   return false;
 }
 void CodeSlayers::showStats() {
-  std::cout << "Name: " << player->getName() << endl;
-  std::cout << "Strength: " << player->getStrength() << endl;
-  std::cout << "Armor: " << player->getArmor() << endl;
-  std::cout << "Health: " << player->getHealth() << endl;
-  std::cout << "Level: " << player->getLevel() << endl;
-  std::cout << "Exp til next level: " << expLevelUp - player->getExp() << endl;
+  std::cout << "Name: " << player->getName() << std::endl;
+  std::cout << "Strength: " << player->getStrength() << std::endl;
+  std::cout << "Armor: " << player->getArmor() << std::endl;
+  std::cout << "Health: " << player->getHealth() << std::endl;
+  std::cout << "Level: " << player->getLevel() << std::endl;
+  std::cout << "Exp til next level: " << expLevelUp - player->getExp() << std::endl;
   player->outputMoves();
   player->outputItems();
 }

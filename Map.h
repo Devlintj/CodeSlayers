@@ -12,7 +12,7 @@ class Map{
     Map(std::string);
     ~Map();
     //saves data of tiles and characters in a csv file
-    void savaData();
+    void saveData();
     //function that returns the tile's string from the tile multidimensional vector
     std::string getTileTerrain(int, int);
     //function that return enemy from the enemy vector at a position.

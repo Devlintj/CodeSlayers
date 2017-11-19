@@ -1,10 +1,11 @@
 #include "Enemy.h"
 #include <fstream>
+#include <iostream>
 #include <sstream>
 #include <string>
 Enemy::Enemy(std::string filename, std::string enemyname) {
-  name = enemyname;
-  ifstream enemyData;
+  this->name = enemyname;
+  std::ifstream enemyData;
   enemyData.open(filename);
   bool foundName = false;
   std::string line;
@@ -49,45 +50,45 @@ Enemy::Enemy(std::string filename, std::string enemyname) {
   enemyData.close();
 }
 Enemy::Enemy(std::string line) {
-  stringstream s(line);
+  std::stringstream ss(line);
   std::string stats;
-  std::getline(enemyData,stats,','); //loads health, armor, strength, and exp of enemy
+  std::getline(ss,stats,','); //loads health, armor, strength, and exp of enemy
   health = stoi(stats);
-  std::getline(enemyData,stats,',');
+  std::getline(ss,stats,',');
   strength = stoi(stats);
-  std::getline(enemyData,stats,',');
+  std::getline(ss,stats,',');
   armor = stoi(stats);
-  std::getline(enemyData,stats,',');
+  std::getline(ss,stats,',');
   name = stats;
-  std::getline(enemyData,stats,',');
+  std::getline(ss,stats,',');
   x_pos = stoi(stats);
-  std::getline(enemyData,stats,',');
+  std::getline(ss,stats,',');
   y_pos = stoi(stats);
-  std::getline(enemyData,stats,',');
+  std::getline(ss,stats,',');
   level = stoi(stats);
-  std::getline(enemyData,stats,','); //loads in moves damage
+  std::getline(ss,stats,','); //loads in moves damage
   moves[0].damageMod = stoi(stats);
-  std::getline(enemyData,stats,','); //loads in armor pierce
+  std::getline(ss,stats,','); //loads in armor pierce
   moves[0].armorPierce = stoi(stats);
-  std::getline(enemyData,stats,',');//loads in moves name
+  std::getline(ss,stats,',');//loads in moves name
   moves[0].name = stats;
-  std::getline(enemyData,stats,',');
+  std::getline(ss,stats,',');
   moves[1].damageMod = stoi(stats);
-  std::getline(enemyData,stats,',');
+  std::getline(ss,stats,',');
   moves[1].armorPierce = stoi(stats);
-  std::getline(enemyData,stats,',');
+  std::getline(ss,stats,',');
   moves[1].name = stats;
-  std::getline(enemyData,stats,',');
+  std::getline(ss,stats,',');
   moves[2].damageMod = stoi(stats);
-  std::getline(enemyData,stats,',');
+  std::getline(ss,stats,',');
   moves[2].armorPierce = stoi(stats);
-  std::getline(enemyData,stats,',');
+  std::getline(ss,stats,',');
   moves[2].name = stats;
-  std::getline(enemyData,stats,',');
+  std::getline(ss,stats,',');
   moves[3].damageMod = stoi(stats);
-  std::getline(enemyData,stats,',');
+  std::getline(ss,stats,',');
   moves[3].armorPierce = stoi(stats);
-  std::getline(enemyData,stats);
+  std::getline(ss,stats);
   moves[3].name = stoi(stats);
 }
 Enemy::Enemy() {
@@ -104,15 +105,19 @@ void Enemy::adjustStats() {
   }
 }
 std::string Enemy::enemyStats() {
-  std::string stat = to_string(health) + ',' + to_string(strength) + ',' + to_string(armor) + ',' + name;
-  stat += ',' + to_string(x_pos) + ',' + to_string(y_pos) + ',';
-  stat += ',' + to_string(level) + ',' + to_string(move[0].damageMod);
-  stat += ',' + to_string(move[0].armorPierce) + ',' + move[0].name + ',' + to_string(move[1].damageMod);
-  stat += ',' + to_string(move[1].armorPierce) + ',' + move[1].name + ',' + to_string(move[2].damageMod);
-  stat += ',' + to_string(move[2].armorPierce) + ',' + move[2].name + ',' + to_string(move[3].damageMod);
-  stat += ',' + to_string(move[3].armorPierc) << ',' + move[3].name + endl;
+  std::string stat = std::to_string(health) + ',' + std::to_string(strength) + ',' + std::to_string(armor) + ',' + name;
+  stat += ',' + std::to_string(x_pos) + ',' + std::to_string(y_pos) + ',';
+  stat += ',' + std::to_string(level) + ',' + std::to_string(moves[0].damageMod);
+  stat += ',' + std::to_string(moves[0].armorPierce) + ',' + moves[0].name + ',' + std::to_string(moves[1].damageMod);
+  stat += ',' + std::to_string(moves[1].armorPierce) + ',' + moves[1].name + ',' + std::to_string(moves[2].damageMod);
+  stat += ',' + std::to_string(moves[2].armorPierce) + ',' + moves[2].name + ',' + std::to_string(moves[3].damageMod);
+  stat += ',' + std::to_string(moves[3].armorPierce) + ',' + moves[3].name + '\n';
   return stat;
 }
 void Enemy::setLevel(int level) {
   this->level = level;
+}
+void attack(Player* player, int attack) {
+  int damage = (strength * moves[moveIndex].damageMod) - (armor - moves[moveIndex].armorPierce);
+  player->receiveDamage(damage);
 }

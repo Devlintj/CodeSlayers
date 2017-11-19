@@ -1,8 +1,10 @@
 #include "Tile.h"
-Tile::Tile(string terrain) {
+Tile::Tile(std::string terrain) {
   this->terrain = terrain;
 }
-Tile::~Tile();
-Tile::getTerrain() {
+Tile::~Tile(){
+
+}
+std::string Tile::getTerrain() {
   return terrain;
 }
