@@ -1,4 +1,5 @@
 #include "Tile.h"
+#include <string>
 Tile::Tile(std::string terrain) {
   this->terrain = terrain;
 }

@@ -1,8 +1,8 @@
 #ifndef ENEMY_H
 #define ENEMY_H
-#include "Character.h"
-#include "Player.h"
 #include <string>
+#include "Character.h"
+class Player;
 class Enemy : public Character{
   public:
     //constructor initalizing a enemy with a file to import stats, and and level.

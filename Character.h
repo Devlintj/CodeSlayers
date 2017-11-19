@@ -4,8 +4,8 @@
 #include "ItemsAndMoves.h"
 class Character{
   public:
-    //constructor initalizing a character with a file to import stats
-    Character(std::string);
+    //default constructor to fix inheritence issues
+    Character();
     ~Character();
     //function to receiveDamage from another character
     void receiveDamage(int);

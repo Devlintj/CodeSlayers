@@ -1,7 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 #include "Enemy.h"
-#include "Tile.h"
+class Tile;
 #include <vector>
 #include <string>
 class Map{
@@ -25,7 +25,7 @@ class Map{
     int getEnemySize();
   private:
     //multidimensional tiles of the map
-    Tile tileArray[100][100];
+    Tile * tileArray[100][100];
     //character position of the map
     std::vector<Enemy> enemies;
 

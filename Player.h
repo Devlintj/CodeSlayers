@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "Character.h"
-#include "Enemy.h"
+class Enemy;
 #include <string>
 #include <vector>
 class Player : public Character{
