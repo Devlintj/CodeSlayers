@@ -17,7 +17,6 @@ class Enemy : public Character{
     void setLevel(int);
     //function returns as string of enemy stats
     std::string enemyStats();
-  private:
     //function that adjusts stats based on level
     void adjustStats();
 };

@@ -17,6 +17,7 @@ CodeSlayers::CodeSlayers() {
       player = new Player("playerStats.txt");
       opponent = new Enemy();
       boss = new Enemy("EnemyStats.txt", "cog");
+      map->spawnEnemies();
       expLevelUp = 5;
       break;
     }
@@ -68,11 +69,15 @@ void CodeSlayers::playGame() {
       case 'q':
       saveGame();
       break;
+      case 't':
+      bossFight();
+      break;
     }
   }
   bossFight();
 }
 void CodeSlayers::fight() {
+  std::string line;
   loadOpponent();
   int turnCount = 1;
   while(!isDead() && !gameOver()) {
@@ -81,18 +86,95 @@ void CodeSlayers::fight() {
       int att = rand()%4;
       opponent->attack(player, att);
       std::cout << opponent->getName() << " attacks with " << opponent->moves[att].name << std::endl;
+    } else {
+      std::cout << "your turn. attack with 'a' and use item with 'i'" << std::endl;
+      std::cin >> line;
+      while(1 == 1) {
+        if(line[0] == 'a') {
+          player->outputMoves();
+          std::cout << "type in a move: ";
+          std::cin >> line;
+          player->attack(opponent, line);
+          break;
+        }
+        if(line[0] == 'i') {
+          player->outputItems();
+          std::cout << "type in an item: ";
+          std::cin >> line;
+          player->useItem(line);
+          break;
+        }
+      }
     }
+    std::cout << player->getHealth() << " sanity points remaining for you" << std::endl;
+    turnCount++;
   }
   if(isDead()) {
+    player->addExp(opponent->getLevel());
     map->removeEnemy(player->getX_pos(), player->getY_pos());
+    player->addItem("c4c-food", 10);
+    std::cout << "got c4c food!" << std::endl;
+    if(player->canLevelUp(expLevelUp)) {
+      player->levelUp();
+      std::cout<< "you leveled up!" << std::endl;
+      expLevelUp += 5;
+    }
   }
   if(gameOver()) {
+    std::cout << "you have been defeated";
     exit (0);
   }
   fun_counter -= 50;
 }
 void CodeSlayers::bossFight() {
-
+  std::string line;
+  loadOpponent();
+  int turnCount = 1;
+  while(!bossIsDead() && !gameOver()) {
+    if(turnCount%2 == 0) {
+      srand(time(NULL));
+      int att = rand()%4;
+      boss->attack(player, att);
+      std::cout << boss->getName() << " attacks with " << boss->moves[att].name << std::endl;
+    } else {
+      std::cout << "your turn. attack with 'a' and use item with 'i'" << std::endl;
+      std::cin >> line;
+      while(1 == 1) {
+        if(line[0] == 'a') {
+          player->outputMoves();
+          std::cout << "type in a move: ";
+          std::cin >> line;
+          player->attack(boss, line);
+          break;
+        }
+        if(line[0] == 'i') {
+          player->outputItems();
+          std::cout << "type in an item: ";
+          std::cin >> line;
+          player->useItem(line);
+          break;
+        }
+      }
+    }
+    std::cout << player->getHealth() << " sanity points remaining for you" << std::endl;
+    if(boss->getHealth() > 150) {
+      std::cout << "could not locate files: 0/100 points on submission" << std::endl;
+    } else if(boss->getHealth() > 100) {
+      std::cout << "expected 16 outputs, only got 13: 11/1oo points on submission" << std::endl;
+    } else if(boss->getHealth() > 50) {
+      std::cout << "expected output:get good, student output:get,good: 63/100 points on submission" << std::endl;
+    }
+    turnCount++;
+  }
+  if(bossIsDead()) {
+    std::cout << "100/100" << std::endl;
+    std::cout << "you have slayed the greatest for for CSCI-1300 students. Congratulations!";
+    exit (0);
+  }
+  if(gameOver()) {
+    std::cout<< "Cog has defeated you like many others.";
+    exit (0);
+  }
 }
 void CodeSlayers::movePlayer(char direction) {
   switch(direction) {
@@ -158,9 +240,13 @@ void CodeSlayers::saveGame() {
   map->saveData();
 }
 void CodeSlayers::introText() {
-
+  std::cout << "Hello and welcome brave adventure to CodeSlayers! In this game, you slay various code problems to make .cpp land compile correctly. here is a list of all the keywords you must type to do actions. 'n' to move north, 's' to move south, 'e' to move east, 'w' to move west, 'q' to save game data, 'i' to show stats, and 'f' to fight an error. When you are ready, type 't' to initiate bossfight." << std::endl;
 }
 void CodeSlayers::descriptionText() {
+  std::cout << "fun counter: " << fun_counter << std::endl;
   std::cout << player->getX_pos() << " " << player->getY_pos() << '\n';
   std::cout << "you are walking through " << map->getTileTerrain(player->getX_pos(), player->getY_pos()) << " terrain" << std::endl;
+  if(!map->isEmpty(player->getX_pos(), player ->getY_pos())) {
+    std::cout << "there is a level " << map->getEnemy(player->getX_pos(), player ->getY_pos()).getLevel() << " monster here." << std::endl;
+  }
 }

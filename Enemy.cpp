@@ -15,15 +15,13 @@ Enemy::Enemy(std::string filename, std::string enemyname) : Character() {
   while(!enemyData.eof() && !foundName) {
     std::getline(enemyData,line);
     if(line == enemyname) {
-      std::getline(enemyData,line,','); //loads health, armor, strength, and exp of enemy
+      std::getline(enemyData,line,','); //loads health, armor, strength, and moves of enemy
       num = line.c_str();
       health = std::atoi(num);
       std::getline(enemyData,line,',');
       strength = std::atoi(num);
       std::getline(enemyData,line,',');
       armor = std::atoi(num);
-      std::getline(enemyData,line,',');
-      level = std::atoi(num);
       std::getline(enemyData,line,','); //loads in moves damage
       moves[0].damageMod = std::atoi(num);
       std::getline(enemyData,line,','); //loads in armor pierce
@@ -47,7 +45,7 @@ Enemy::Enemy(std::string filename, std::string enemyname) : Character() {
       std::getline(enemyData,line,',');
       moves[3].armorPierce = std::atoi(num);
       std::getline(enemyData,line);
-      moves[3].name = std::atoi(num);
+      moves[3].name = line;
       foundName = true;
     }
   }
@@ -117,7 +115,7 @@ std::string Enemy::enemyStats() {
   stat += ',' + std::to_string(moves[0].armorPierce) + ',' + moves[0].name + ',' + std::to_string(moves[1].damageMod);
   stat += ',' + std::to_string(moves[1].armorPierce) + ',' + moves[1].name + ',' + std::to_string(moves[2].damageMod);
   stat += ',' + std::to_string(moves[2].armorPierce) + ',' + moves[2].name + ',' + std::to_string(moves[3].damageMod);
-  stat += ',' + std::to_string(moves[3].armorPierce) + ',' + moves[3].name + '\n';
+  stat += ',' + std::to_string(moves[3].armorPierce) + ',' + moves[3].name;
   return stat;
 }
 void Enemy::setLevel(int level) {

@@ -93,6 +93,7 @@ void Player::levelUp() {
   strength+=5;
   armor+=2;
   exp = 0;
+  level++;
 }
 bool Player::canLevelUp(int expReq) {
   if(exp >= expReq) {
@@ -104,9 +105,9 @@ bool Player::canLevelUp(int expReq) {
 void Player::savePlayerData() {
   std::ofstream playerData;
   playerData.open("savedPlayerStats.txt");
-  playerData << playerStats();
+  playerData << playerStats() << std::endl;
   while(this->items.size() > 0) {
-    playerData << this->items[this->items.size() - 1].healthGained << ',' << this->items[this->items.size() - 1].name << '\n';
+    playerData << this->items[this->items.size() - 1].healthGained << ',' << this->items[this->items.size() - 1].name << std::endl;
     this->items.pop_back();
   }
 }
@@ -116,7 +117,7 @@ std::string Player::playerStats() {
   stat += ',' + std::to_string(moves[0].armorPierce) + ',' + moves[0].name + ',' + std::to_string(moves[1].damageMod);
   stat += ',' + std::to_string(moves[1].armorPierce) + ',' + moves[1].name + ',' + std::to_string(moves[2].damageMod);
   stat += ',' + std::to_string(moves[2].armorPierce) + ',' + moves[2].name + ',' + std::to_string(moves[3].damageMod);
-  stat += ',' + std::to_string(moves[3].armorPierce) + ',' + moves[3].name + '\n';
+  stat += ',' + std::to_string(moves[3].armorPierce) + ',' + moves[3].name;
   return stat;
 }
 int Player::findMove(std::string moveName) {
@@ -142,4 +143,7 @@ void Player::outputItems() {
 }
 int Player::getExp() {
   return exp;
+}
+void Player::addExp(int mult) {
+  exp+= exp * mult;
 }

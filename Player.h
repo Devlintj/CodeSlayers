@@ -27,6 +27,8 @@ class Player : public Character{
     void outputItems();
     //function that returns exp
     int getExp();
+    //function that adds exp based on opponent level
+    void addExp(int);
   private:
     int exp;
     //vector to keep items

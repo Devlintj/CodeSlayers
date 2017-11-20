@@ -1,3 +1,5 @@
-40,10,5,1,1,51,50,1,5,piazza,2,-5,debug,3,-10,stackoverflow,1,-2,guess
+400,100,50,3,1,53,50,1,5,piazza,2,-5,debug,3,-10,stackoverflow,1,-2,guess
+10,c4c-food
 0,
 15,doritos
+10,soda

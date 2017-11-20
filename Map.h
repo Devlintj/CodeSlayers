@@ -23,11 +23,13 @@ class Map{
     bool isEmpty(int, int);
     //function that returns how many enemies are left
     int getEnemySize();
+    //because I couldn't spawn in constructor
+    void spawnEnemies();
   private:
     //multidimensional tiles of the map
     Tile * tileArray[100][100];
     //character position of the map
-    std::vector<Enemy> enemies;
+    std::vector<Enemy*> enemies;
 
 };
 #endif

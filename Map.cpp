@@ -7,80 +7,39 @@
 #include <fstream>
 Map::Map() {
   srand(time(NULL));
-  Enemy * temp = new Enemy();
   for(int i = 0; i < 100; i++) {
     for(int j = 0; j < 100; j++) {
       int terrain = rand()%10;
       switch(terrain) {
         case 0:
         tileArray[i][j] = new Tile("grass");
-        if(rand()%10 == 1) {
-          delete temp;
-          temp =  new Enemy("missing-curly-bracket");
-        }
         break;
         case 1:
         tileArray[i][j] = new Tile("plain");
-        if(rand()%10 == 1) {
-          delete temp;
-          temp =  new Enemy("uninitialized-variable");
-        }
         break;
         case 2:
         tileArray[i][j] = new Tile("hill");
-        if(rand()%10 == 1) {
-          delete temp;
-          temp =  new Enemy("segmentation-fault");
-        }
         break;
         case 3:
         tileArray[i][j] = new Tile("rock");
-        if(rand()%10 == 1) {
-          delete temp;
-          temp =  new Enemy("array-out-of-bounds");
-        }
         break;
         case 4:
         tileArray[i][j] = new Tile("snow");
-        if(rand()%10 == 1) {
-          delete temp;
-          temp =  new Enemy("poorly-named-variable");
-        }
         break;
         case 5:
         tileArray[i][j] = new Tile("desert");
-        if(rand()%10 == 1) {
-          delete temp;
-          temp =  new Enemy("what()stoi");
-        }
         break;
         case 6:
         tileArray[i][j] = new Tile("lecture");
-        if(rand()%10 == 1) {
-          delete temp;
-          temp =  new Enemy("pseudo-code");
-        }
         break;
         case 7:
         tileArray[i][j] = new Tile("recitation");
-        if(rand()%10 == 1) {
-          delete temp;
-          temp =  new Enemy("no-tty-present");
-        }
         break;
         case 8:
         tileArray[i][j] = new Tile("unknown");
-        if(rand()%10 == 1) {
-          delete temp;
-          temp =  new Enemy("piazza-help-forum");
-        }
         break;
         case 9:
         tileArray[i][j] = new Tile("jungle");
-        if(rand()%10 == 1) {
-          delete temp;
-          temp =  new Enemy("not-defined-in-scope");
-        }
         break;
       }
     }
@@ -103,7 +62,7 @@ Map::Map(std::string filename) {
   std::getline(mapFile,line);
   while(!mapFile.eof()) {
     getline(mapFile,line);
-    Enemy a(line);
+    Enemy * a = new Enemy(line);
     enemies.push_back(a);
   }
 }
@@ -117,16 +76,17 @@ Map::~Map() {
 void Map::saveData() {
   std::ofstream myMap;
   myMap.open("mapdata.txt");
-  myMap << "tiles" << '\n';
+  myMap << "tiles" << std::endl;
   for(int i = 0; i < 100; i++) {
     for(int j =0; j < 100; j++) {
-      myMap << tileArray[i][j]->getTerrain() << '\n';
+      myMap << tileArray[i][j]->getTerrain() << std::endl;
     }
   }
-  myMap << "enemies" << '\n';
-  while(enemies.size() > 0) {
-    myMap << enemies.back().enemyStats() << '\n';
-    enemies.pop_back();
+  myMap << "enemies" << std::endl;
+  int index = 0;
+  while(enemies.size() > index) {
+    myMap << enemies[index]->enemyStats() << std::endl;
+    index++;
   }
 }
 std::string Map::getTileTerrain(int x, int y) {
@@ -134,14 +94,14 @@ std::string Map::getTileTerrain(int x, int y) {
 }
 Enemy Map::getEnemy(int x, int y) {
   for(int i = 0; i < enemies.size(); i++) {
-    if(enemies[i].getX_pos() == x && enemies[i].getY_pos() == y) {
-      return enemies[i];
+    if(enemies[i]->getX_pos() == x && enemies[i]->getY_pos() == y) {
+      return *enemies[i];
     }
   }
 }
 void Map::removeEnemy(int x, int y) {
   for(int i = 0; i < enemies.size(); i++) {
-    if(enemies[i].getX_pos() == x && enemies[i].getY_pos() == y) {
+    if(enemies[i]->getX_pos() == x && enemies[i]->getY_pos() == y) {
       enemies.erase(enemies.begin() + i);
       break;
     }
@@ -149,7 +109,7 @@ void Map::removeEnemy(int x, int y) {
 }
 bool Map::isEmpty(int x, int y) {
   for(int i = 0; i < enemies.size(); i++) {
-    if(enemies[i].getX_pos() == x && enemies[i].getY_pos() == y) {
+    if(enemies[i]->getX_pos() == x && enemies[i]->getY_pos() == y) {
       return false;
     }
   }
@@ -157,4 +117,84 @@ bool Map::isEmpty(int x, int y) {
 }
 int Map::getEnemySize() {
   return enemies.size();
+}
+void Map::spawnEnemies() {
+  srand(time(NULL));
+  for(int i = 0; i < 100; i = i += 10) {
+    for(int j = 0; j < 100; j = j += 10) {
+      int opp = rand()%10;
+      switch(opp) {
+        case 0:
+        enemies.push_back(new Enemy("EnemyStats.txt", "missing-curly-bracket"));
+        enemies[enemies.size() - 1]->setLevel(rand()%20 + 1);
+        enemies[enemies.size() - 1]->adjustStats();
+        enemies[enemies.size() - 1]->setX_pos(i);
+        enemies[enemies.size() - 1]->setY_pos(j);
+        break;
+        case 1:
+        enemies.push_back(new Enemy("EnemyStats.txt", "uninitialized-variable"));
+        enemies[enemies.size() - 1]->setLevel(rand()%20 + 1);
+        enemies[enemies.size() - 1]->adjustStats();
+        enemies[enemies.size() - 1]->setX_pos(i);
+        enemies[enemies.size() - 1]->setY_pos(j);
+        break;
+        case 2:
+        enemies.push_back(new Enemy("EnemyStats.txt", "segmentation-fault"));
+        enemies[enemies.size() - 1]->setLevel(rand()%20 + 1);
+        enemies[enemies.size() - 1]->adjustStats();
+        enemies[enemies.size() - 1]->setX_pos(i);
+        enemies[enemies.size() - 1]->setY_pos(j);
+        break;
+        case 3:
+        enemies.push_back(new Enemy("EnemyStats.txt", "array-out-of-bounds"));
+        enemies[enemies.size() - 1]->setLevel(rand()%20 + 1);
+        enemies[enemies.size() - 1]->adjustStats();
+        enemies[enemies.size() - 1]->setX_pos(i);
+        enemies[enemies.size() - 1]->setY_pos(j);
+        break;
+        case 4:
+        enemies.push_back(new Enemy("EnemyStats.txt", "poorly-named-variable"));
+        enemies[enemies.size() - 1]->setLevel(rand()%20 + 1);
+        enemies[enemies.size() - 1]->adjustStats();
+        enemies[enemies.size() - 1]->setX_pos(i);
+        enemies[enemies.size() - 1]->setY_pos(j);
+        break;
+        case 5:
+        enemies.push_back(new Enemy("EnemyStats.txt", "what()stoi"));
+        enemies[enemies.size() - 1]->setLevel(rand()%20 + 1);
+        enemies[enemies.size() - 1]->adjustStats();
+        enemies[enemies.size() - 1]->setX_pos(i);
+        enemies[enemies.size() - 1]->setY_pos(j);
+        break;
+        case 6:
+        enemies.push_back(new Enemy("EnemyStats.txt", "pseudo-code"));
+        enemies[enemies.size() - 1]->setLevel(rand()%20 + 1);
+        enemies[enemies.size() - 1]->adjustStats();
+        enemies[enemies.size() - 1]->setX_pos(i);
+        enemies[enemies.size() - 1]->setY_pos(j);
+        break;
+        case 7:
+        enemies.push_back(new Enemy("EnemyStats.txt", "no-tty-present"));
+        enemies[enemies.size() - 1]->setLevel(rand()%20 + 1);
+        enemies[enemies.size() - 1]->adjustStats();
+        enemies[enemies.size() - 1]->setX_pos(i);
+        enemies[enemies.size() - 1]->setY_pos(j);
+        break;
+        case 8:
+        enemies.push_back(new Enemy("EnemyStats.txt", "piazza-help-forum"));
+        enemies[enemies.size() - 1]->setLevel(rand()%20 + 1);
+        enemies[enemies.size() - 1]->adjustStats();
+        enemies[enemies.size() - 1]->setX_pos(i);
+        enemies[enemies.size() - 1]->setY_pos(j);
+        break;
+        case 9:
+        enemies.push_back(new Enemy("EnemyStats.txt", "not-defined-in-scope"));
+        enemies[enemies.size() - 1]->setLevel(rand()%20 + 1);
+        enemies[enemies.size() - 1]->adjustStats();
+        enemies[enemies.size() - 1]->setX_pos(i);
+        enemies[enemies.size() - 1]->setY_pos(j);
+        break;
+      }
+    }
+  }
 }
